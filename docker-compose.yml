@@ -6,7 +6,7 @@ services:
   db:
     image: postgres:12
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - /srv/db:/var/lib/postgresql/data
     env_file:
       - config/db/database
     networks:

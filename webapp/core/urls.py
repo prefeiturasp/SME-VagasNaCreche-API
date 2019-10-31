@@ -15,15 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from helloapp.views import HelloWorld
 from rest_framework import routers
-from rest_framework_swagger.views import get_swagger_view
 
-schema_view = get_swagger_view(title='Django Docker Recipe')
 
 router = routers.DefaultRouter()
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('doc/', schema_view),
+    path('hello/', HelloWorld.as_view()),
     path('admin/', admin.site.urls),
 ]

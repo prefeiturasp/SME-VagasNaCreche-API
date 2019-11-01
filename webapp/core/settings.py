@@ -137,3 +137,5 @@ SECURE_HSTS_SECONDS = 60
 REST_FRAMEWORK = {
   'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+CORS_ORIGIN_ALLOW_ALL = True

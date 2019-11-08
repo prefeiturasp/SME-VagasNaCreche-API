@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     'corsheaders',
     'drf_yasg',
-    'helloapp'
+    'helloapp',
+    'pesquisa',
+    'fila_da_creche',
 ]
 
 MIDDLEWARE = [

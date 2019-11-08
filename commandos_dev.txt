@@ -1,0 +1,8 @@
+-- MAKEMIGRATION
+docker-compose -f docker-compose_dev.yml run --rm djangoapp /bin/bash -c "python webapp/manage.py makemigrations"
+
+--Migrate
+docker-compose -f docker-compose_dev.yml run --rm djangoapp /bin/bash -c "python webapp/manage.py migrate"
+
+--Create Super User
+docker-compose -f docker-compose_dev.yml run --rm djangoapp /bin/bash -c "python webapp/manage.py createsuperuser"

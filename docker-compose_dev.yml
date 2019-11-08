@@ -7,7 +7,7 @@ services:
     image: postgres:12
     restart: unless-stopped
     volumes:
-      - /srv/db_vaga:/var/lib/postgresql/data
+      - /srv/db_vaga_dev:/var/lib/postgresql/data
     env_file:
       - .env
     networks:
@@ -17,37 +17,27 @@ services:
 
   # web container, with django + gunicorn
   djangoapp:
-    build: .
+    build:
+      context: .
+      dockerfile: DockerfileDEV
+    tty: true
     environment:
       - DJANGO_SETTINGS_MODULE
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
     restart: unless-stopped
     volumes:
       - .:/opt/services/djangoapp/src
       - static:/opt/services/djangoapp/static
       - media:/opt/services/djangoapp/media
-    env_file:
-      - .env
     networks:
       - database
-      - nginx_network
+    ports:
+      - "8000:8000"
     depends_on:
       - db
 
-  # reverse proxy container (nginx)
-  nginx:
-    image: nginx:1.13
-    restart: unless-stopped
-    ports:
-      - 80:80
-    volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
-      - static:/opt/services/djangoapp/static
-      - media:/opt/services/djangoapp/media
-
-    networks:
-      - nginx_network
-    depends_on:
-      - djangoapp
 
 networks:
   database:

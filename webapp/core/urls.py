@@ -19,7 +19,7 @@ from helloapp.views import HelloWorld
 from rest_framework import routers
 from pesquisa.urls import urlpatterns as pesquisa_urls
 from fila_da_creche.urls import urlpatterns as fila_da_creche_urls
-
+from vaga_remanescente.urls import urlpatterns as vaga_urls
 
 router = routers.DefaultRouter()
 
@@ -28,6 +28,6 @@ urlpatterns = [
     path('hello/', HelloWorld.as_view()),
     path('admin/', admin.site.urls),
     path('pesquisa/', include(pesquisa_urls), name='pesquisa'),
-    path('fila-da-creche/', include(fila_da_creche_urls), name='fila-da-creche')
+    path('fila-da-creche/', include(fila_da_creche_urls), name='fila-da-creche'),
+    path('vaga/', include(vaga_urls), name='vaga'),
 ]
-

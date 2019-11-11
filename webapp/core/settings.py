@@ -27,7 +27,6 @@ if os.environ.get('DEBUG') == 'True':
 else:
     DEBUG = False
 
-
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     'helloapp',
     'pesquisa',
     'fila_da_creche',
+    'vaga_remanescente',
 ]
 
 MIDDLEWARE = [
@@ -136,9 +136,8 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'media')
 # production settings
 SECURE_HSTS_SECONDS = 60
 
-
 REST_FRAMEWORK = {
-  'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

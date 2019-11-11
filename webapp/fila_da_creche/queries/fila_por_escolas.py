@@ -1,7 +1,7 @@
 from utils.db_fila_creche_connection import FilaDBConnection
 
 
-def get_escolas(cd_serie, lon, lat, raio):
+def get_fila_por_escolas(cd_serie, lon, lat, raio):
     connection = FilaDBConnection()
     querie_escolas = f"""
             select juntado.cd_unidade_educacao,

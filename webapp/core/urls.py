@@ -21,10 +21,10 @@ from pesquisa.urls import urlpatterns as pesquisa_urls
 from fila_da_creche.urls import urlpatterns as fila_da_creche_urls
 from vaga_remanescente.urls import urlpatterns as vaga_urls
 
-router = routers.DefaultRouter()
+# router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    # path('api/', include(router.urls)),
     path('hello/', HelloWorld.as_view()),
     path('admin/', admin.site.urls),
     path('pesquisa/', include(pesquisa_urls), name='pesquisa'),

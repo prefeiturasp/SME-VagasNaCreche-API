@@ -6,3 +6,6 @@ docker-compose -f docker-compose_dev.yml run --rm djangoapp /bin/bash -c "python
 
 --Create Super User
 docker-compose -f docker-compose_dev.yml run --rm djangoapp /bin/bash -c "python webapp/manage.py createsuperuser"
+
+--run interactive
+docker-compose -f docker-compose_dev.yml run --service-ports djangoapp

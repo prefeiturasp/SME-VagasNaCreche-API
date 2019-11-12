@@ -7,4 +7,4 @@ class HistoricoBuscaEnderecoSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = HistoricoBuscaEndereco
-        fields = ('latitute', 'longitude')
+        fields = ('latitute', 'longitude', 'cd_serie')

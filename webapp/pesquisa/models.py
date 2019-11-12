@@ -5,6 +5,7 @@ class HistoricoBuscaEndereco(models.Model):
     latitute = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     cd_serie = models.IntegerField(blank=True, null=True, default=0)
+    dt_pesquisa = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'pesq_historico_busca_endereco'

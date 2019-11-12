@@ -1,3 +1,7 @@
+import pickle
+import zlib
+
+from django.core.cache import cache
 from fila_da_creche.queries.dt_atualizacao import get_dt_atualizacao
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,6 +30,13 @@ class GetVagaByEscola(APIView):
 
 class GetVagasFilter(APIView):
     def get(self, request):
-        return Response({'dres': get_dre(),
-                         'distritos': get_distritos(),
-                         'sub-prefeituas': get_sub_prefeituras()})
+        cache_time = 3600
+        cached_item = cache.get('filtros_vaga')
+        if not cached_item:
+            response = {'dres': get_dre(),
+                        'distritos': get_distritos(),
+                        'sub-prefeituras': get_sub_prefeituras()}
+            cache.set('filtros_vaga', zlib.compress(pickle.dumps(response)), cache_time)
+            return Response(response)
+        print('Com cache')
+        return Response(pickle.loads(zlib.decompress(cached_item)))

@@ -1,60 +1,69 @@
-version: '3'
+version: "3.6"
 
 services:
-
-  # database containers, one for each db
-  db:
+  vaga-creche-db:
     image: postgres:12
+    container_name: vaga-creche-db
     restart: unless-stopped
     volumes:
       - /srv/db_vaga:/var/lib/postgresql/data
     env_file:
       - .env
     networks:
-      - database
+      - vaga-creche-db-nw
     ports:
       - "5432:5432"
 
-  # web container, with django + gunicorn
-  djangoapp:
-    build: .
+  vaga-creche-djangoapp:
+    build: SME-VagasNaCreche-API/
+    restart: unless-stopped
     environment:
       - DJANGO_SETTINGS_MODULE
-    restart: unless-stopped
     volumes:
-      - .:/opt/services/djangoapp/src
+      - ./SME-VagasNaCreche-API/:/opt/services/djangoapp/src
       - static:/opt/services/djangoapp/static
       - media:/opt/services/djangoapp/media
     env_file:
       - .env
     networks:
-      - database
-      - nginx_network
+      - vaga-creche-db-nw
+      - vaga-creche-web_nw
     depends_on:
-      - db
+      - vaga-creche-db
+      - vaga-creche-redis
 
-  # reverse proxy container (nginx)
-  nginx:
-    image: nginx:1.13
+  vaga-creche-nginx:
+    image: nginx:1.15-alpine
+    container_name: vaga-creche-nginx
     restart: unless-stopped
-    ports:
-      - 80:80
     volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/conf.d:/etc/nginx/conf.d
       - static:/opt/services/djangoapp/static
       - media:/opt/services/djangoapp/media
-
     networks:
-      - nginx_network
+      - vaga-creche-web_nw
     depends_on:
-      - djangoapp
+      - vaga-creche-djangoapp
+      - vaga-creche-db
+    ports:
+      - "80:80"
+
+  vaga-creche-redis:
+    image: redis:3.2-alpine
+    container_name: vaga-creche-redis
+    volumes:
+      - redis_data:/data
+    networks:
+      - vaga-creche-db-nw
 
 networks:
-  database:
+  vaga-creche-db-nw:
     driver: bridge
-  nginx_network:
+  vaga-creche-web_nw:
     driver: bridge
 
 volumes:
+  db_data:
   static:
   media:
+  redis_data:

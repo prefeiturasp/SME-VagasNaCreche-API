@@ -17,7 +17,9 @@ def get_fila_por_escolas(cd_serie, lon, lat, raio):
                     case
                         when tp_escola in (11, 12, 14, 22) then 'PARCEIRA'
                         else 'DIRETA' end as                                       tipo,
-                    concat(trim(u.sg_tp_escola), ' ', trim(u.nm_unidade_educacao)) escola,
+                    concat(trim(case
+                                when tp_escola in (10, 11, 12) then 'CEI'
+                                else sg_tp_escola end), ' ', trim(u.nm_unidade_educacao)) escola,
                     u.endereco_completo,
                     u.telefones,
                     u.cd_longitude,
@@ -28,11 +30,8 @@ def get_fila_por_escolas(cd_serie, lon, lat, raio):
                                 ON u.cd_unidade_educacao::integer = s.cd_unidade_educacao
              WHERE ST_DWithin(geom::geography, ST_SetSRID(ST_MakePoint({lon}, {lat}), 4326), {raio})
                AND s.cd_serie_ensino = {cd_serie}
-             group by u.cd_unidade_educacao,
-                      case
-                          when tp_escola in (11, 12, 14, 22) then 'PARCEIRA'
-                          else 'DIRETA' end, concat(trim(u.sg_tp_escola), ' ', trim(u.nm_unidade_educacao)),
-                      u.endereco_completo, u.telefones, u.cd_longitude, u.cd_latitude
+         group by u.cd_unidade_educacao, u.nm_unidade_educacao,
+                  u.endereco_completo, u.telefones, u.cd_longitude, u.cd_latitude, sg_tp_escola, tp_escola
          ) juntado
 
             """

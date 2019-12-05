@@ -28,7 +28,9 @@ def get_vaga_por_escolas(filtro, busca, cd_serie):
     if filtro:
         querie_escolas = f"""
 select cd_unidade_educacao,
-       concat(trim(sg_tp_escola), ' ', nm_exibicao_unidade_educacao) as nm_unidade_educacao,
+       concat(trim(case
+                                when tp_escola in (10, 11, 12) then 'CEI'
+                                else sg_tp_escola end), ' ', trim(nm_unidade_educacao)) escola,
        case
            when tp_escola in (11, 12, 14, 22) then 'PARCEIRA'
            else 'DIRETA' end                                         as tipo,
@@ -38,8 +40,8 @@ select cd_unidade_educacao,
         vagas_remanecentes_{cd_serie} vagas_remanescente,
         nm_distrito,
         dc_sub_prefeitura,
-        cd_latitude,
-        cd_longitude
+        cd_latitude latitude,
+        cd_longitude longitude
 
 from (
     select esc_inf.cd_unidade_educacao,

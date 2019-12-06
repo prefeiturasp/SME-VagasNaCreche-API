@@ -1,3 +1,4 @@
 from django.contrib import admin
+from pesquisa.models import HistoricoBuscaEndereco
 
-# Register your models here.
+admin.site.register(HistoricoBuscaEndereco)

@@ -11,6 +11,7 @@ from dw_dims.unidades_educacionais esc
          inner join dw_dims.unidades_educacionais_infantil_vagas_seriev2 esc_inf
                     on esc_inf.cd_unidade_educacao = esc.cd_unidade_educacao
 group by nm_unidade_administrativa, nm_exibicao_unidade_administrativa
+order by nm_exibicao_unidade_administrativa
                 """
 
     dre = connection.querie(querie_dre)

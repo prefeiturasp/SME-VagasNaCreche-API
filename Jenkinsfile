@@ -23,7 +23,7 @@ pipeline {
       
     stage('Analise Codigo') {
           when {
-            branch 'development'
+            branch 'homolog'
           }
             steps {
                 sh 'sonar-scanner \
@@ -36,7 +36,7 @@ pipeline {
          
     stage('Docker build DEV') {
         when {
-          branch 'development'
+          branch 'dev'
         }
           steps {
           // Start JOB Rundeck para build das imagens Docker
@@ -64,7 +64,7 @@ pipeline {
 
     stage('Deploy DEV') {
         when {
-          branch 'development'
+          branch 'dev'
         }
           steps {
             //Start JOB Rundeck para update de deploy Kubernetes DEV
@@ -125,7 +125,7 @@ pipeline {
             
             timeout(time: 24, unit: "HOURS") {
                telegramSend("${JOB_NAME}...O Build ${BUILD_DISPLAY_NAME} - Requer uma aprovação para deploy !!!\n Consulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)\n")
-               input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'marcos_nastri, pedro_walter'
+               input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'ollyver_ottoboni, kelwy_oliveira, alessandro_fernandes, anderson_morais'
             }
             //Start JOB Rundeck para update de imagens no host homologação 
          
@@ -185,7 +185,7 @@ pipeline {
             steps {
                 timeout(time: 24, unit: "HOURS") {
                 telegramSend("${JOB_NAME}...O Build ${BUILD_DISPLAY_NAME} - Requer uma aprovação para deploy !!!\n Consulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)\n")
-                input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'marcos_nastri, pedro_walter'
+                input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'ollyver_ottoboni, kelwy_oliveira, alessandro_fernandes, anderson_morais'
                 }
                     
             

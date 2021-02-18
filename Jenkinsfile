@@ -30,7 +30,7 @@ pipeline {
                     -Dsonar.projectKey=SME-VagasNaCreche-API \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=http://sonar.sme.prefeitura.sp.gov.br \
-                    -Dsonar.login=584ae23f7a8daa51cd289cfea35385cb6ed6acac'
+                    -Dsonar.login=ce510afc1d7da0716ca3e0e46e3a4b83af3198d8'
             }
        }
          
@@ -210,31 +210,4 @@ pipeline {
             }
         }
   }    
-
-
-    
-post {
-        always {
-          echo 'One way or another, I have finished'
-        }
-        success {
-	  	    step([$class: 'GitHubCommitStatusSetter'])
-          telegramSend("${JOB_NAME}...O Build ${BUILD_DISPLAY_NAME} - Esta ok !!!\n Consulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)\n\n Uma nova versão da aplicação esta disponivel!!!")
-        }
-        unstable {
-          step([$class: 'GitHubCommitStatusSetter'])
-          telegramSend("O Build ${BUILD_DISPLAY_NAME} <${env.BUILD_URL}> - Esta instavel ...\nConsulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)")
-        }
-        failure {
-          step([$class: 'GitHubCommitStatusSetter'])
-          telegramSend("${JOB_NAME}...O Build ${BUILD_DISPLAY_NAME}  - Quebrou. \nConsulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)")
-        }
-        changed {
-          echo 'Things were different before...'
-        }
-        aborted {
-          step([$class: 'GitHubCommitStatusSetter'])
-          telegramSend("O Build ${BUILD_DISPLAY_NAME} - Foi abortado.\nConsulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)")
-        }
-    }
 }

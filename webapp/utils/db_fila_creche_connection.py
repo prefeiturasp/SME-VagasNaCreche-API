@@ -9,11 +9,13 @@ class FilaDBConnection:
         self.host = os.environ.get('FILADB_HOST')
         self.user = os.environ.get('FILADB_USER')
         self.passd = os.environ.get('FILADB_PASS')
+        self.port = os.environ.get('FILADB_PORT')
+        self.db = os.environ.get('FILADB_DB')
 
     def querie(self, query):
         try:
-            with psycopg2.connect(host=self.host, user=self.user, password=self.passd, dbname="postgres",
-                                  port=5433) as conn:
+            with psycopg2.connect(host=self.host, user=self.user, password=self.passd, dbname=self.db,
+                                  port=self.port) as conn:
                 cursor = conn.cursor()
                 cursor.execute(query)
                 response = {'results':

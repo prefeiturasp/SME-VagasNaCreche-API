@@ -6,9 +6,11 @@ pipeline {
       namespace = "${env.branchname == 'develop' ? 'vaganacreche-dev' : env.branchname == 'homolog' ? 'vaganacreche-hom' : env.branchname == 'homolog-r2' ? 'vaganacreche-hom2' : 'sme-vaganacreche' }"
     }
   
-    agent {
-      node { label 'AGENT-NODES' }
-    }
+    agent { kubernetes { 
+              label 'builder'
+              defaultContainer 'builder'
+            }
+          }
 
     options {
       buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
